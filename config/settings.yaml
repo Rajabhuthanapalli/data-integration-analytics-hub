@@ -1,0 +1,11 @@
+sources:
+  orders_csv: "data/sample_orders.csv"
+
+validation:
+  required_columns: ["order_id", "order_date", "customer_id", "region", "currency", "amount"]
+  allowed_currencies: ["USD", "EUR", "GBP", "INR"]
+  min_amount: 0.0
+
+outputs:
+  processed_dir: "data/processed"
+  reports_dir: "data/reports"
