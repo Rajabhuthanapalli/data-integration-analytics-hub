@@ -1,0 +1,9 @@
+order_id,order_date,customer_id,region,currency,amount
+1001,2025-10-28,C-001,US,USD,120.50
+1002,2025-10-28,C-002,EU,EUR,95.00
+1003,2025-10-29,C-003,IN,INR,7500
+1004,2025-10-30,C-004,UK,GBP,82.40
+1005,2025-11-01,C-002,EU,EUR,150.00
+1005,2025-11-01,C-002,EU,EUR,150.00   # duplicate to test dedup
+1006,2025-11-02,C-005,US,USD,-5.00    # invalid amount to test rule
+1007,2025-11-02,C-006,US,ABC,50.00    # invalid currency to test rule
