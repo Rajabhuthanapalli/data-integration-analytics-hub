@@ -1,0 +1,18 @@
+sources:
+  orders_csv: "data/sample_orders.csv"
+
+validation:
+  required_columns: ["order_id", "order_date", "customer_id", "region", "currency", "amount"]
+  allowed_currencies: ["USD", "EUR", "GBP", "INR"]
+  min_amount: 0.0
+
+outputs:
+  processed_dir: "data/processed"
+  reports_dir: "data/reports"
+
+database:
+  url: "sqlite:///./diah.db"   # SQLite file at repo root
+
+fx_api:
+  base_url: "https://api.exchangerate.host/latest"
+  base_currency: "USD"
