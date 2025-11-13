@@ -1,0 +1,42 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:16
+    container_name: diah_postgres
+    restart: always
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  etl:
+    build: .
+    container_name: diah_etl
+    depends_on:
+      - db
+    environment:
+      - FX_API_URL=${FX_API_URL}
+      - BASE_CURRENCY=${BASE_CURRENCY}
+      - DATABASE_URL=postgresql+psycopg2://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:${POSTGRES_PORT}/${POSTGRES_DB}
+    volumes:
+      - .:/app
+    command: python src/pipeline_day6.py
+
+  dashboard:
+    build: .
+    container_name: diah_dashboard
+    depends_on:
+      - db
+    ports:
+      - "8501:8501"
+    environment:
+      - DATABASE_URL=postgresql+psycopg2://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:${POSTGRES_PORT}/${POSTGRES_DB}
+    command: streamlit run app/streamlit_app.py --server.port=8501 --server.address=0.0.0.0
+
+volumes:
+  postgres_data:
